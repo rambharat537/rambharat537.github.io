@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Healthcare Data ETL Pipeline | Ram Bharat Chowdary Moturi</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .back-button {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .project-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-title {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .project-subtitle {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .project-overview {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-tag {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .pipeline-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .step-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+            position: relative;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .step-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .code-snippet {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .data-flow {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow-item {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            margin: 10px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .flow-arrow {
+            font-size: 24px;
+            color: #667eea;
+            margin: 0 10px;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .project-link {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .project-link.secondary {
+            background: #2c3e50;
+        }
+
+        .project-link.secondary:hover {
+            background: #34495e;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .project-header, .content-section {
+                padding: 20px;
+            }
+
+            .project-title {
+                font-size: 28px;
+            }
+
+            .pipeline-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+
+            .flow-item {
+                display: block;
+                margin: 10px 0;
+            }
+
+            .flow-arrow {
+                display: block;
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Portfolio
+        </a>
+
+        <div class="project-header">
+            <h1 class="project-title">Healthcare Data ETL Pipeline</h1>
+            <p class="project-subtitle">SQL-Based Data Integration Solution</p>
+            <p class="project-overview">
+                A robust and scalable ETL (Extract, Transform, Load) pipeline designed to process and integrate large healthcare datasets from multiple sources. This solution creates a unified data warehouse that supports advanced analytics and machine learning models for hospital readmission prediction and healthcare insights.
+            </p>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Project Overview</h2>
+            <p>Healthcare organizations generate vast amounts of data from various sources including Electronic Health Records (EHR), laboratory systems, imaging systems, and administrative databases. This ETL pipeline consolidates these disparate data sources into a unified, clean, and analysis-ready dataset that serves as the foundation for predictive modeling and business intelligence.</p>
+            
+            <div class="tech-stack">
+                <span class="tech-tag">SQL Server</span>
+                <span class="tech-tag">Python</span>
+                <span class="tech-tag">Pandas</span>
+                <span class="tech-tag">SQLAlchemy</span>
+                <span class="tech-tag">ETL</span>
+                <span class="tech-tag">Data Warehousing</span>
+                <span class="tech-tag">Data Quality</span>
+                <span class="tech-tag">Healthcare Standards</span>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Data Flow Architecture</h2>
+            <div class="data-flow">
+                <div class="flow-item">EHR Systems</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">Lab Results</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">ETL Pipeline</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">Data Warehouse</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">Analytics</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">ETL Pipeline Components</h2>
+            <div class="pipeline-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Data Extraction</h4>
+                    <p>Automated extraction from multiple healthcare data sources including patient records, lab results, discharge summaries, and administrative data using secure API connections and database queries.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Data Validation</h4>
+                    <p>Comprehensive data quality checks including completeness validation, format verification, and healthcare standard compliance (HL7, ICD-10) to ensure data integrity.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>Data Transformation</h4>
+                    <p>Advanced data cleaning, normalization, and feature engineering including handling missing values, standardizing medical codes, and creating derived variables for analysis.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Data Loading</h4>
+                    <p>Efficient loading into the data warehouse with proper indexing, partitioning, and optimization for analytical queries and machine learning model training.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Technical Implementation</h2>
+            <p><strong>SQL-Based Processing:</strong> Leveraged advanced SQL techniques including stored procedures, views, and functions for efficient data processing and transformation.</p>
+            
+            <div class="code-snippet">
+-- Sample SQL for patient readmission data processing
+CREATE PROCEDURE ProcessReadmissionData
+AS
+BEGIN
+    -- Clean and standardize patient data
+    UPDATE PatientRecords 
+    SET diagnosis_code = UPPER(TRIM(diagnosis_code))
+    WHERE diagnosis_code IS NOT NULL;
+    
+    -- Calculate readmission indicators
+    WITH ReadmissionCTE AS (
+        SELECT patient_id, admission_date, discharge_date,
+               LEAD(admission_date) OVER (PARTITION BY patient_id ORDER BY admission_date) as next_admission
+        FROM Admissions
+    )
+    UPDATE Admissions 
+    SET readmission_30day = CASE 
+        WHEN DATEDIFF(day, discharge_date, next_admission) <= 30 THEN 1 
+        ELSE 0 END;
+END
+            </div>
+
+            <p><strong>Python Integration:</strong> Used Python with Pandas and SQLAlchemy for complex data transformations and automated data quality reporting.</p>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Data Sources Integrated</h2>
+            <ul style="line-height: 2; margin-left: 20px;">
+                <li><strong>Electronic Health Records (EHR):</strong> Patient demographics, medical history, diagnoses, medications</li>
+                <li><strong>Laboratory Information Systems:</strong> Lab test results, vital signs, clinical measurements</li>
+                <li><strong>Discharge Summaries:</strong> Treatment details, procedures, discharge instructions</li>
+                <li><strong>Administrative Systems:</strong> Billing codes, insurance information, hospital stay details</li>
+                <li><strong>Pharmacy Systems:</strong> Medication prescriptions, dosages, administration records</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Data Quality & Governance</h2>
+            <p><strong>Quality Assurance:</strong> Implemented comprehensive data quality checks including completeness rates, validity constraints, and business rule validation.</p>
+            <p><strong>Healthcare Compliance:</strong> Ensured compliance with HIPAA regulations and healthcare data standards including proper de-identification procedures.</p>
+            <p><strong>Audit Trail:</strong> Maintained detailed logging and audit trails for all data transformations to ensure traceability and regulatory compliance.</p>
+            <p><strong>Performance Optimization:</strong> Achieved 85% reduction in data processing time through optimized SQL queries and efficient data warehouse design.</p>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Business Impact</h2>
+            <ul style="line-height: 2; margin-left: 20px;">
+                <li><strong>Unified Data Access:</strong> Created single source of truth for healthcare analytics reducing data silos</li>
+                <li><strong>Improved Data Quality:</strong> Achieved 98% data completeness rate through automated quality checks</li>
+                <li><strong>Faster Analytics:</strong> Reduced time-to-insight from weeks to hours for clinical research</li>
+                <li><strong>Cost Savings:</strong> Eliminated manual data integration processes saving 40+ hours per week</li>
+                <li><strong>Enhanced Decision Making:</strong> Enabled real-time analytics for clinical and operational decisions</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">Future Enhancements</h2>
+            <p>Plans include implementing real-time streaming data processing, expanding to cloud-based architecture, and integrating machine learning models directly into the pipeline for automated anomaly detection and predictive analytics.</p>
+        </div>
+
+        <div class="project-links">
+            <a href="#" class="project-link">
+                <i class="fab fa-github"></i>
+                View Code Repository
+            </a>
+            <a href="#" class="project-link secondary">
+                <i class="fas fa-database"></i>
+                Database Schema
+            </a>
+        </div>
+    </div>
+</body>
+</html>
